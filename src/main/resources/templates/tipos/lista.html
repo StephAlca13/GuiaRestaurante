@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<head>
+<meta charset="UTF-8">
+<title>TipoRestaurante</title>
+</head>
+<style>
+.pagination {
+	position: absolute;
+	top: 87%;
+	left: 45%;
+}
+
+.page-footer {
+	position: absolute;
+	top: 92.8%;
+	width: 100%;
+}
+
+.navi {
+	width: 35%;
+	position: relative;
+	left: 30%;
+}
+</style>
+<body>
+	<header th:replace="fragments/padrao :: cabecalho"></header>
+
+	<br>
+	<nav class="navi">
+		<div class="nav-wrapper">
+			<form action="/buscarTodos">
+				<div class="input-field">
+					<input name="todostp" id="search" type="search" required> <label
+						class="label-icon" for="search"><i class="material-icons">search</i></label>
+					<i class="material-icons">close</i>
+				</div>
+			</form>
+		</div>
+	
+		<!--  
+		<form method="get" action="/listarEscolas/1">
+			<label for="elementos">Escolha a quantidade de elementos da
+				lista</label> <select id="selectTotal" name="totalElem"
+				onchange="changeSelect()">
+				<option value="-1">Selecione</option>
+				<option value="2">2</option>
+				<option value="4">4</option>
+				<option value="8">8</option>
+				<option value="16">16</option>
+			</select>
+		</form>
+-->
+	</nav>
+
+	<br></br>
+
+	<div class="container">
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nome</th>
+					<th>Descriçao</th>
+					<th>Palavra-chave</th>
+					<th>Alterar</th>
+					<th>Excluir</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="tipo:${tipos}">
+					<td th:text="${tipo.id}" />
+					<td th:text="${tipo.nome}" />
+					<td th:text="${tipo.descricao}" />
+					<td th:text="${tipo.palavraChave}" />
+					<td><a th:href="@{/alterarTipo(id=${tipo.id})}">Alterar</a></td>
+					<td><a th:href="@{/excluirTipo(id=${tipo.id})}">Excluir</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul class="pagination">
+			<li th:class="${paginaAtual == 1 ? 'disabled' : ''}"><a
+				th:href="${paginaAtual > 1 ? paginaAtual - 1 : '#'}"><i
+					class="material-icons">chevron_left</i></a></li>
+
+			<li th:each="p:${numPaginas}"
+				th:class="${paginaAtual == p ? 'active' : 'waves-effect'}"><a
+				th:href="${p}"><span th:text="${p}"></span></a></li>
+
+
+			<li
+				th:class="${paginaAtual == totalPaginas ? 'disabled' : 'waves-effect'}">
+				<a th:href="${paginaAtual < totalPaginas ? paginaAtual+1 :'#'}">
+					<i class="material-icons">chevron_right</i>
+			</a>
+			</li>
+		</ul>
+	</div>
+
+	<footer th:replace="fragments/padrao :: rodape"></footer>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			console.log("passou aqui");
+			$(".dropdown-trigger").dropdown();
+		});
+	</script>
+	<!-- 
+	<script>
+		$(document).ready(function() {
+			$('select').formSelect();
+		});
+
+		function changeSelect(e) {
+			elementos = document.getElementById("selectTotal").value;
+			if (elementos != "-1") {
+				window.location = "/listarEscolas/" + elementos + "/1";
+			}
+		}
+	</script>
+	 -->
+</body>
+</html>

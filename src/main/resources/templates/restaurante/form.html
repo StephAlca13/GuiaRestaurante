@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<script src="./js/main.js" type='module' defer></script>
+
+
+<style>
+.alertamensagem {
+	margin-left: 50px;
+	padding: 20px;
+}
+
+.msgerro {
+	background-color: #ff9999;
+}
+
+.msgsucesso {
+	background: linear-gradient(to bottom, #99ff66 0%, #ccffcc 100%);
+}
+
+.page-footer {
+	position: absolute;
+	top: 92.8%;
+	width: 100%;
+	left: 0;
+}
+</style>
+
+<title>Cadastro do Restaurante</title>
+</head>
+<body>
+	<header th:replace="fragments/padrao :: cabecalho"></header>
+	<div class="container">
+		<h1>Cadastro de Restaurante</h1>
+
+		<div class="row">
+
+			<form class="col s12" method="post" action="salvarRestaurante"
+				enctype="multipart/form-data" accept-charset="utf-8">
+				<input type="hidden" name="id" th:value="${rest?.id}">
+
+				<div class="row">
+					<div class="input-field col s6">
+						<i class="material-icons prefix">account_circle</i> <input
+							id="nome" name="nome" th:value="${rest?.nome}"
+							type="text" class="validate"> <label for="nome">Nome
+							do Restaurante</label>
+
+					</div>
+
+					<div class="input-field col s6">
+						<i class="material-icons prefix">description</i> <input
+							id="descricao" name="descricao" th:value="${rest?.descricao}"
+							type="text" class="validate"> <label for="descricao">Descrição</label>
+
+					</div>
+
+					<div class="row">
+						<div class="input-field col s3">
+							<i class="material-icons prefix">accessibility</i> <input
+								id="cep" name="cep" th:value="${rest?.cep}"
+								type="text" class="validate"> <label for="cep">CEP</label>
+
+						</div>
+
+						<div class="input-field col s6">
+							<i class="material-icons prefix">description</i> <input
+								placeholder="" id="endereco" name="endereco"
+								th:value="${rest?.endereco}" type=" text" class="validate">
+							<label for="endereco">Endereço</label>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s3">
+							<i class="material-icons prefix">accessibility</i> <input
+								id="numero" name="numero" th:value="${rest?.numero}" type="text"
+								class="validate"> <label for="numero">N°</label>
+
+						</div>
+
+						<div class="input-field col s6">
+							<i class="material-icons prefix">description</i> <input
+								placeholder="" id="bairro" name="bairro"
+								th:value="${rest?.bairro}" type="text" class="validate">
+							<label for="bairro">Bairro</label>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s5">
+							<i class="material-icons prefix">accessibility</i> <input
+								placeholder="" id="cidade" name="cidade"
+								th:value="${rest?.cidade}" type="text" class="validate">
+							<label for="ciade">Cidade</label>
+
+						</div>
+
+						<div class="input-field col s5">
+							<i class="material-icons prefix">description</i> <input
+								placeholder="" id="estado" name="estado"
+								th:value="${rest?.estado}" type="text" class="validate">
+							<label for="estado">Estado</label>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s6">
+							<i class="material-icons prefix">accessibility</i> <input
+								id="complemento" name="complemento"
+								th:value="${rest?.complemento}" type="text" class="validate">
+							<label for="complemento">Complemento</label>
+
+						</div>
+						
+						<input type="hidden" th:value="${rest?.fotos}" name="fotos"/>
+
+						<div class="file-field input-field">
+							<div class="btn">
+								<span>Fotos</span> <input type="file" name="fileFotos"
+									 multiple accept="image/*">
+							</div>
+							<div class="file-path-wrapper">
+								<input class="file-path validate" type="text"
+									placeholder="Upload de uma ou mais fotos">
+							</div>
+						</div>
+
+						<div class="input-field col s7">
+							<select name="tipo">
+								<option select="selected" disabled="disabled">Selecione
+									o tipo de restaurante</option>
+								<option th:each="t: ${tipos}" th:value="${t.id}"
+									th:text="${t.nome}"
+									th:selected="${t.id == restaurante?.tipo?.id}"></option>
+
+							</select> <label>Tipo de Restaurante</label>
+						</div>
+
+					</div>
+
+					<div>
+						<p>
+							<label> <input type="checkbox" name="espacoInfantil"
+								class="filled-in" th:checked="${rest?.espacoInfantil}" /> <span>Espaço
+									Infantil</span>
+							</label>
+						</p>
+
+						<p>
+							<label> <input type="checkbox" name="estacionamento"
+								class="filled-in" th:checked="${rest?.estacionamento}" /> <span>Estacionamento</span>
+							</label>
+						</p>
+
+						<p>
+							<label> <input type="checkbox" name="driveThru"
+								class="filled-in" th:checked="${rest?.driveThru}" /> <span>Drive-thru</span>
+							</label>
+						</p>
+
+						<p>
+							<label> <input type="checkbox" name="manobrista"
+								class="filled-in" th:checked="${rest?.manobrista}" /> <span>Manobrista</span>
+							</label>
+						</p>
+
+						<p>
+							<label> <input type="checkbox" name="delivery"
+								class="filled-in" th:checked="${rest?.delivery}" /> <span>Delivery</span>
+							</label>
+						</p>
+
+					</div>
+
+					<div class="row">
+						<div class="input-field col s6">
+							<i class="material-icons prefix">accessibility</i> <input
+								id="atracoes" name="atracoes" th:value="${rest?.atracoes}" type="text" class="validate"> <label for="atracoes">Atrações</label>
+
+						</div>
+
+						<div class="input-field col s6">
+							<i class="material-icons prefix">description</i> <input
+								id="formasPagamento" name="formasPagamento"
+								th:value="${rest?.formasPagamento}" type="text"
+								class="validate"> <label
+								for="formasPagamento">Formas de Pagamento</label>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s6">
+							<i class="material-icons prefix">accessibility</i> <input
+								id="site" name="site" th:value="${rest?.site}" type="text" class="validate"> <label for="site">Web-site</label>
+
+						</div>
+
+						<div class="input-field col s6">
+							<i class="material-icons prefix">description</i> <input
+								id="telefone" name="telefone" th:value="${rest?.telefone}" type="text" class="validate"> <label for="telefone">Telefone</label>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="input-field col s12">
+							<i class="material-icons prefix">accessibility</i> <input
+								id="redesSociais" name="redesSociais"
+								th:value="${rest?.redesSociais}" type="text"
+								class="validate"> <label
+								for="redesSociais">Redes Sociais</label>
+
+						</div>
+
+					</div>
+					<div th:if="${rest?.Fotos?.length > 0}">
+						<h6>Fotos Cadastradas</h6>
+						<div>
+							<ul>
+								<li th:each="foto, i : ${rest?.verFotos()}"><a th:href="${foto}"
+									target="_blank"><img th:src="${foto}"></a>
+									<a th:href="@{excluirFotoRestaurante(idRestaurante=${rest.id}, numFoto = ${i.index})}">
+									<i class="material-icons">delete_forever</i>
+									</a>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+
+					<button class="btn waves-effect waves-light" type="submit"
+						name="action">
+						Salvar <i class="material-icons right">send</i>
+					</button>
+			</form>
+			<br /> <br />
+
+			<div th:replace="fragments/mensagem"></div>
+
+		</div>
+	</div>
+
+
+	<script type="text/javascript"
+		src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="jquery.mask.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			$('select').formSelect();
+			$('#cep').mask('00000-000');
+
+		})
+	</script>
+
+
+</body>
+</html>
